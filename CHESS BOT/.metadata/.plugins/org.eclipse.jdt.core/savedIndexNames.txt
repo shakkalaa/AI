@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+C:\Users\shaka\OneDrive\Documents\ARTIFICAL INTELLIGENCE\CHESS BOT\.metadata\.plugins\org.eclipse.jdt.core
+685258899.index
+1865797976.index
+2721958025.index
+4242768837.index

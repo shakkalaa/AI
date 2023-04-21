@@ -1,0 +1,233 @@
+package com.stephengware.java.games.chess.bot;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+//import com.stephengware.java.games.chess.state.Player;
+//import com.stephengware.java.games.chess.state.State;
+import com.stephengware.java.games.chess.state.*;
+
+
+/**
+ * A chess bot which selects its next move at random.
+ * 
+ * @author Stephen G. Ware
+ * 
+ */
+public class smosely1<Decision> extends Bot {
+
+	private Player player = null;
+	Iterator<State> iterator;
+	ArrayList<State> children;
+	
+	/**
+	 * Constructs a new chess bot named "My Chess Bot" and whose random  number
+	 * generator (see {@link java.util.Random}) begins with a seed of 0.
+	 */
+	public smosely1() {
+		super("My Chess Bot");
+		new Random(0);
+	}
+
+	//@Override
+	/**protected State chooseMove(State root) {
+		// This list will hold all the children nodes of the root.
+		ArrayList<State> children = new ArrayList<>();
+		// Generate all the children nodes of the root (that is, all the
+		// possible next states of the game.  Make sure that we do not exceed
+		// the number of GameTree nodes that we are allowed to generate.
+		Iterator<State> iterator = root.next().iterator();
+		while(!root.searchLimitReached() && iterator.hasNext())
+			children.add(iterator.next());
+		// Choose one of the children at random.
+		return children.get(random.nextInt(children.size()));
+	}
+    /**
+     * 
+     * 
+     * @author Stephen G.Ware
+     * @return 
+     */
+	@Override
+    protected State chooseMove(State root){
+        System.out.println(root.player.name());
+		if (player == null) {
+			player = root.player;
+		}
+		return minMax(root);
+        
+    }
+
+	private smosely1<Decision>.Result findMax(State state, double minValue, double maxValue, double depthLimit) {
+		
+		double maximum = Double.NEGATIVE_INFINITY;
+		Iterator<State> iterator = state.next().iterator();
+		ArrayList<State> child = new ArrayList<>();
+		Result maxResult = null;
+		
+		if (state.over || depthLimit == 0) {
+			Result highResult = new Result(state, gameStatus(state));
+			return highResult;
+		}
+
+		while (!state.searchLimitReached() && iterator.hasNext()) {
+			child.add(iterator.next());
+		}
+
+		for (State children : child) {
+			Result min = findMin(children, minValue, maxValue, depthLimit--);
+
+			if (min.gameStatus > maximum) {
+				maximum = min.gameStatus;
+				maxResult = min;
+			}
+
+			if (min.gameStatus >= maxValue) {
+				return maxResult;
+			}
+		}
+		return maxResult;
+	}
+
+	private smosely1<Decision>.Result findMin(State state, double minValue, double maxValue, double depthLimit){
+
+		
+		double minimum = Double.NEGATIVE_INFINITY;
+		Iterator<State> iterator = state.next().iterator();
+		ArrayList<State> child = new ArrayList<>();
+		Result minResult = null;
+		
+		if (state.over || depthLimit == 0) {
+			Result lowResult = new Result(state, gameStatus(state));
+			return lowResult;
+		}
+
+		while (!state.searchLimitReached() && iterator.hasNext()) {
+			child.add(iterator.next());
+		}
+
+		for (State children : child) {
+			Result max = findMax(children, minValue, maxValue, depthLimit--);
+
+			if (max.gameStatus > minimum) {
+				minimum = max.gameStatus;
+				minResult = max;
+			}
+
+			if (max.gameStatus >= minValue) {
+				return minResult;
+			}
+		}
+		return minResult;
+	}
+	private double gameStatus(State state){
+		double score = 0;
+		if (state.over) {
+			if (state.check) {
+				if (state.player == Player.WHITE) {
+					return -69420;
+				} else {
+					return 69420;
+				}
+				
+			}
+			
+		}
+		for (Piece piece : state.board) {
+			if (piece.player.equals(Player.WHITE)) {
+				if (piece.getClass() == Pawn.class) {
+					++score; 
+				}else{
+					if (piece.getClass() == Pawn.class ) {
+						--score;
+					}
+				}
+
+				if (piece.player.equals(Player.WHITE)) {
+					if (piece.getClass() == Knight.class) {
+						score += 2; 
+					}else{
+						if (piece.getClass() == Knight.class ) {
+							score -= 2;
+						}
+					}
+				}
+
+				if (piece.player.equals(Player.WHITE)) {
+					if (piece.getClass() == Bishop.class) {
+						score += 3; 
+					}else{
+						if (piece.getClass() == Bishop.class ) {
+							score -= 3;
+						}
+					}
+		
+				}
+
+				if (piece.player.equals(Player.WHITE)) {
+					if (piece.getClass() == Rook.class) {
+						score += 5; 
+					}else{
+						if (piece.getClass() == Rook.class ) {
+							score -= 5;
+						}
+					}
+		
+				}
+
+				if (piece.player.equals(Player.WHITE)) {
+					if (piece.getClass() == Queen.class) {
+						score += 9; 
+					}else{
+						if (piece.getClass() == Queen.class ) {
+							score -= 9;
+						}
+					}
+		
+				}
+
+				if (piece.player.equals(Player.WHITE)) {
+					if (piece.getClass() == King.class) {
+						score += 69; 
+					}else{
+						if (piece.getClass() == King.class ) {
+							score -= 69;
+						}
+					}
+		
+				}
+			}	
+			
+		} 
+		return score;
+	}
+
+	public State minMax(State state){
+		Result result = null;
+
+		if (state.player == Player.WHITE) {
+			result = findMax(state, Double.MIN_VALUE, Double.MAX_VALUE, 3);
+		} 
+		else {
+			result = findMin(state, Double.MIN_VALUE, Double.MAX_VALUE, 3);
+				
+		}
+
+		State highState = result.state;
+		return highState;
+	}
+
+	class Result{
+		public final double utility = 0;
+		public State state;
+		public double gameStatus;
+
+		public Result(State child, double gameStatus){
+			this.state = child;
+			this.gameStatus = gameStatus;
+		}
+
+	}
+}
+
+

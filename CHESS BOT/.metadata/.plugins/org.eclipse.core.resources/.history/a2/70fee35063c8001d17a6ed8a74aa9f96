@@ -1,0 +1,271 @@
+package com.stephengware.java.games.chess.bot;
+//package com.stephengware.java.games.mm_game.ai;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
+import com.stephengware.java.games.chess.bot.Bot;
+import com.stephengware.java.games.chess.state.*;
+//import com.stephengware.java.games.chess.state.Piece;
+//import com.stephengware.java.games.chess.state.Player;
+
+/**
+ * A chess bot which selects its next move at random.
+ * 
+ * @author Stephen G. Ware
+ */
+public class smosely1 extends Bot {
+
+	/** A random number generator */
+	private Player me = null;
+
+	/**
+	 * Constructs a new chess bot named "My Chess Bot" and whose random number
+	 * generator (see {@link java.util.Random}) begins with a seed of 0.
+	 */
+	public smosely1() {
+		super("kllumsykay");
+	}
+
+	/*
+	 * @Override protected State chooseMove(State root) { // This list will hold all
+	 * the children nodes of the root. ArrayList<State> children = new
+	 * ArrayList<>(); // Generate all the children nodes of the root (that is, all
+	 * the // possible next states of the game. Make sure that we do not exceed //
+	 * the number of GameTree nodes that we are allowed to generate. Iterator<State>
+	 * iterator = root.next().iterator(); while (!root.searchLimitReached() &&
+	 * iterator.hasNext()) children.add(iterator.next()); // Choose one of the
+	 * children at random. return children.get(random.nextInt(children.size())); }
+	 */
+
+	/**
+	 * This bot performs just as well as {@link MinMaxBot} but expands significantly
+	 * fewer nodes by intelligently pruning the tree.
+	 * 
+	 * @author Stephen G. Ware
+	 */
+
+	@Override
+	public State chooseMove(State root) {
+		me = root.player;
+		State r = minMax(root);
+		System.out.println(r.searchLimitReached());
+		return r;
+	}
+
+	public State minMax(State s) {
+		Result bestResult = null;
+
+		if (s.player == Player.WHITE) {
+			bestResult = findMax(s, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,1);
+		} else {
+			bestResult = findMin(s, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
+		}
+
+		State bestState = bestResult.s;
+		while (bestState.previous != s) {
+			bestState = bestState.previous;
+
+			
+		}
+		return bestState;
+	}
+
+	/**
+	 * @param alpha the highest utility value discovered so far in this branch of
+	 *              the tree (i.e. best for X)
+	 * @param beta  the lowest utility value discovered so far in this branch of the
+	 *              tree (i.e. best for O)
+	 * @return the utility value of the node with the highest minimum utility
+	 */
+	private Result findMax(State s, double alpha, double beta, double depthLimit) {
+		// First, check if this node is a leaf node (i.e. the game is over)
+		// using Tree#state#isTerminal(). If so, simply return the utility of
+		// this state.
+		Result bestResult = null;
+
+		if (s.over || depthLimit == 0) {
+			Result r = new Result(s, evaluate(s));
+			return r;
+		}
+		// If this node is not a leaf, then we need to expand all of its
+		// children and find the one with the highest minimum utility value.
+		// Start with the lowest possible number, Double#NEGATIVE_INFINITY and
+		// work your way up from there.
+		
+		double max = Double.NEGATIVE_INFINITY;
+		Iterator<State> iterator = s.next().iterator();
+		ArrayList<State> children = new ArrayList<>();
+
+		while (!s.searchLimitReached() && iterator.hasNext()) {
+			children.add(iterator.next());
+		}
+		for (State child : children) {
+			Result value = findMin(child, alpha, beta, depthLimit - 1);
+			if (value.evaluate > max) {
+				max = value.evaluate;
+				bestResult = value;
+			}
+			if (value.evaluate >= beta) {
+				return bestResult;
+			}
+			if (max > alpha) {
+				alpha = max;
+			}
+		}
+
+		// Find the lowest possible utility value the child node can have.
+
+		// Update 'max' based on this new information. 'max' should always hold the
+		// largest value we have discovered so far.
+
+		// The parameter 'beta' holds the lowest utility value that has been
+		// looking for the child with the highest value, but if we find something
+		// that is greater than or equal to alpha, there is no reason to bother
+		// checking more children nodes because a better move must already exist
+		// somewhere else that has already been explored.
+
+		// Update alpha to be the lowest value discovered so far.
+
+		return bestResult;
+	}
+
+	/**
+	 * @param alpha the highest utility value discovered so far in this branch of
+	 *              the tree (i.e. best for X)
+	 * @param beta  the lowest utility value discovered so far in this branch of the
+	 *              tree (i.e. best for O)
+	 * @return the utility value of the node with the lowest maximum utility
+	 */
+	private Result findMin(State s, double alpha, double beta, double depthLimit) {
+
+		Result bestResult = null;
+		// This method is simply the opposite of #findMax.
+		if (s.over || depthLimit == 0) {
+			Result r = new Result(s, evaluate(s));
+			return r;
+		}
+
+		double min = Double.POSITIVE_INFINITY;
+		Iterator<State> iterator = s.next().iterator();
+		ArrayList<State> children = new ArrayList<>();
+
+		while (!s.searchLimitReached() && iterator.hasNext()) {
+			children.add(iterator.next());
+		}
+		for (State child : children) {
+			Result value = findMax(child, alpha, beta, depthLimit - 1);
+			if (value.evaluate < min) {
+				min = value.evaluate;
+				bestResult = value;
+			}
+			if (value.evaluate <= alpha) {
+				return bestResult;
+			}
+			if (min < beta) {
+				beta = min;
+			}
+		}
+
+		// Update beta to be the lowest value discovered so far.
+
+		return bestResult;
+	}
+
+	private double evaluate(State s) {
+
+		if (s.over) {
+			if (s.check) {
+				if (s.player == Player.WHITE) {
+					return -69420;
+				} else {
+					return 69420;
+				}
+			}
+			// else {
+			// stalemate
+			// }
+		}
+
+		double score = 0.0;
+
+		for (Piece p : s.board) {
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == Pawn.class) {
+					score += 1.0;
+				}
+			} else {
+				if (p.getClass() == Pawn.class) {
+					score -= 1.0;
+				}
+			}
+			// return score;
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == Knight.class) {
+					score += 2.0;
+				}
+			} else {
+				if (p.getClass() == Knight.class) {
+					score -= 2.0;
+				}
+			}
+			// return score;
+
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == Bishop.class) {
+					score += 3.0;
+				}
+			} else {
+				if (p.getClass() == Bishop.class) {
+					score -= 3.0;
+				}
+			}
+			// return score;
+
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == Rook.class) {
+					score += 5.0;
+				}
+			} else {
+				if (p.getClass() == Rook.class) {
+					score -= 5.0;
+				}
+			}
+			// return score;
+
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == Queen.class) {
+					score += 9.0;
+				}
+			} else {
+				if (p.getClass() == Queen.class) {
+					score -= 9.0;
+				}
+			}
+			// return score;
+			if (p.player == Player.WHITE) {
+				if (p.getClass() == King.class) {
+					score += 69.0;
+				}
+			} else {
+				if (p.getClass() == King.class) {
+					score -= 69.0;
+				}
+			}
+			// return score;
+		}
+		return score;
+	}
+
+	public class Result {
+		public State s;
+		public double evaluate;
+
+		public Result(State s, double evaluate) {
+			this.s = s;
+			this.evaluate = evaluate;
+		}
+
+	}
+}

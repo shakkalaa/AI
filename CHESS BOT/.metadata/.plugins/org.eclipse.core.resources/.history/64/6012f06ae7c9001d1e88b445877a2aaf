@@ -1,0 +1,123 @@
+package com.stephengware.java.games.chess.bot;
+
+import java.util.*;
+
+import com.stephengware.java.games.chess.bot.Bot;
+import com.stephengware.java.games.chess.state.*;
+
+
+
+/**
+ * A chess bot which selects its next move at random.
+ * 
+ * @author Stephen G. Ware
+ */
+public class smosely1 extends Bot {
+
+	/** A random number generator */
+    private ChessState state;
+	private int maxDepth;
+
+
+	
+	/**
+	 * Constructs a new chess bot named "My Chess Bot" and whose random  number
+	 * generator (see {@link java.util.Random}) begins with a seed of 0.
+	 */
+	public smosely1() {
+		super("Klumsy");
+		this.maxDepth = maxDepth;
+		this.state = state;
+
+
+		
+	}
+
+	/*
+	@Override
+	protected State chooseMove(State root) {
+		// This list will hold all the children nodes of the root.
+		ArrayList<State> children = new ArrayList<>();
+		// Generate all the children nodes of the root (that is, all the
+		// possible next states of the game.  Make sure that we do not exceed
+		// the number of GameTree nodes that we are allowed to generate.
+		Iterator<State> iterator = root.next().iterator();
+		while(!root.searchLimitReached() && iterator.hasNext())
+			children.add(iterator.next());
+		// Choose one of the children at random.
+		return children.get(random.nextInt(children.size()));
+	}*/
+
+	@Override
+	public Move chooseMove() {
+        int alpha = Integer.MIN_VALUE;
+        int beta = Integer.MAX_VALUE;
+        int maxEval = Integer.MIN_VALUE;
+        Move bestMove = null;
+        for (Move move : state.getMoves()) {
+            state.applyMove(move);
+            int eval = miniMax(maxDepth - 1, alpha, beta, state, false);
+            state.undoMove();
+            if (eval > maxEval) {
+                maxEval = eval;
+                bestMove = move;
+            }
+        }
+        return bestMove;
+    }
+
+
+	private int miniMax(int depth, int alpha, int beta, ChessState state, boolean maxPlayer) {
+        if (depth == 0 || state.isDraw() || state.isMated()) {
+            return evaluateBoard(state);
+        }
+
+        if (maxPlayer) {
+            int maxEval = Integer.MIN_VALUE;
+            for (Move move : state.getMoves()) {
+                state.applyMove(move);
+                int eval = miniMax(depth - 1, alpha, beta, state, false);
+                state.undoMove();
+                maxEval = Math.max(maxEval, eval);
+                alpha = Math.max(alpha, eval);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+            return maxEval;
+        } else {
+            int minEval = Integer.MAX_VALUE;
+            for (Move move : state.getMoves()) {
+                state.applyMove(move);
+                int eval = miniMax(depth - 1, alpha, beta, state, true);
+                state.undoMove();
+                minEval = Math.min(minEval, eval);
+                beta = Math.min(beta, eval);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+            return minEval;
+        }
+    }
+
+    private int evaluateBoard(ChessState state) {
+        int score = 0;
+        Map<Piece, Integer> values = new HashMap<>();
+        values.put(new Pawn(state.getTurn()), 1);
+        values.put(new Knight(state.getTurn()), 3);
+        values.put(new Bishop(state.getTurn()), 3);
+        values.put(new Rook(state.getTurn()), 5);
+        values.put(new Queen(state.getTurn()), 9);
+        values.put(new King(state.getTurn()), 1000);
+
+        for (Square square : Square.values()) {
+            Piece piece = state.getPieceAt(square);
+            if (piece != null) {
+                score += values.get(piece);
+            }
+        }
+
+        return state.getTurn() == Side.WHITE ? score : -score;
+    }
+}
