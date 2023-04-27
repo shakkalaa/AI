@@ -12,23 +12,12 @@ import edu.uno.ai.planning.ss.StateSpaceSearch;
  */
 public class Smosely extends StateSpacePlanner {
 
-	/**
-	 * Constructs a new breadth first search planner. You should change the
-	 * string below from "Example" to your ID. You should also change the name
-	 * of this class. In Eclipse, you can do that easily by right-clicking on
-	 * this file (ExamplePlanner.java) in the Package Explorer and choosing
-	 * Refactor > Rename.
-	*/
+	
 	public Smosely() {
 		super("smosely");
 	}
 	
-	/*@Override
-	protected StateSpaceSearch makeStateSpaceSearch(StateSpaceProblem problem, SearchBudget budget) {
-		return new BreadthFirstSearch(problem, budget);
-	}*/
-	
-	
+
 	//You must perform your search using the provided StateSpaceNode object and its expand method
 	//Extend the plan graph until all goals are non-mutex.
 		//Let G be the current goals, initially the problem’s goals.
