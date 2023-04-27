@@ -45,7 +45,7 @@ public class Smosely extends StateSpacePlanner {
 	several other classes implement. That said, in all of the domains and problems for this
 	project, you will only encounter two kinds of propositions: a literal by itself or a
 	conjunction of literals. You can use Java’s instanceof keyword to tell the difference
-	between the two.Here’s a helpful method to iterate through all the literals in a proposition:*/
+	between the two.Here’s a helpful method to iterate through all the literals in a proposition:
 	
 	private static List<Literal> getLiterals(Proposition proposition) {
 		ArrayList<Literal> list = new ArrayList<>();
@@ -70,5 +70,5 @@ public class Smosely extends StateSpacePlanner {
 				consumer.accept((Literal) conjunct);
 			}
 		}
-	}
+	}*/
 }
