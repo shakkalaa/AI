@@ -22,7 +22,7 @@ public class Smosely extends StateSpacePlanner {
 	public Smosely() {
 		super("smosely");
 	}
-
+	//You must perform your search using the provided StateSpaceNode object and its expand method
 	@Override
 	protected StateSpaceSearch makeStateSpaceSearch(StateSpaceProblem problem, SearchBudget budget) {
 		return new BreadthFirstSearch(problem, budget);
