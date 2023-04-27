@@ -22,12 +22,14 @@ public class Smosely extends StateSpacePlanner {
 	public Smosely() {
 		super("smosely");
 	}
-	//You must perform your search using the provided StateSpaceNode object and its expand method
-	@Override
+	
+	/*@Override
 	protected StateSpaceSearch makeStateSpaceSearch(StateSpaceProblem problem, SearchBudget budget) {
 		return new BreadthFirstSearch(problem, budget);
-	}
+	}*/
 	
+	
+	//You must perform your search using the provided StateSpaceNode object and its expand method
 	//Extend the plan graph until all goals are non-mutex.
 		//Let G be the current goals, initially the problem’s goals.
 		//Let n be the current level, initially the highest level.
