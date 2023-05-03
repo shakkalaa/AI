@@ -25,18 +25,6 @@ public class ExamplePlanner extends StateSpacePlanner {
 
 	@Override
 	protected StateSpaceSearch makeStateSpaceSearch(StateSpaceProblem problem, SearchBudget budget) {
-		return new BreadthFirstSearch(problem, budget);
+		return new Smosely(problem, budget);
 	}
-	
-	//Extend the plan graph until all goals are non-mutex.
-		//Let G be the current goals, initially the problem’s goals.
-		//Let n be the current level, initially the highest level.
-		//To satisfy the goals in G at level n:
-		    //If n = 0, return the plan as a solution.
-		    //Choose a set of steps S which achieve all the goals in G.
-		    //(Every pair of steps in S must be non-mutex).
-		    //Add all steps in S to the plan.
-		    //Let G = all the preconditions of the steps in S.
-		    //Recursively satisfy all the goals in G at level n – 1.
-		//If satisfying G fails, add a level to the graph and try again.
 }
