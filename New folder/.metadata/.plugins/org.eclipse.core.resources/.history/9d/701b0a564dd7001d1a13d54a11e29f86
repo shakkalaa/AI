@@ -1,0 +1,168 @@
+package edu.uno.ai.sat.ex;
+
+import java.util.*;
+
+import edu.uno.ai.logic.Formula;
+import edu.uno.ai.sat.*;
+import edu.uno.ai.util.ImmutableArray;
+
+/**
+ * 
+ * @author 
+ */
+public class Smosely extends Solver {
+
+	//private final Random random = new Random(0);
+	//private int maxOperations;
+    private long startTime;
+	//private Formula formula;
+	
+	/**
+	 * Constructs a new random SAT solver. You should change the string below
+	 * from "random" to your ID. You should also change the name of this class.
+	 * In Eclipse, you can do that easily by right-clicking on this file
+	 * (RandomAgent.java) in the Package Explorer and choosing Refactor > Rename.
+	 */
+	public Smosely() {
+		super("My Solver");
+		//this.maxOperations = 1000000;
+        this.startTime = System.currentTimeMillis();
+	}
+
+
+	@Override
+    public boolean solve(Assignment assignment) {
+		
+		return resolve(assignment, (List<Variable>) assignment.problem.variables);
+    }
+	
+	
+	private boolean resolve(Assignment assignment, List<Variable> variables) {
+		// TODO Auto-generated method stub
+		if(variables.isEmpty()){
+			return assignment.getValue() == Value.TRUE;
+		}
+		
+		Variable variable = null;
+		int minValueCount = Integer.MAX_VALUE;
+		for(Variable var : variables) {
+			if(assignment.getValue(var) == Value.UNKNOWN) {
+				int valueCount = assignment.problem.getValueCount(var);
+				
+				if(valueCount < minValueCount) {
+					minValueCount = valueCount;
+					variable = var;
+				}
+			}
+		}
+		
+		if(variable == null){
+			return assignment.getValue() == Value.TRUE;
+		}
+		
+		assignment.setValue(variable, Value.TRUE);
+		
+		if(resolve(assignment, variables)) {
+			return true;
+		}
+		
+		assignment.setValue(variable, Value.FALSE);
+		
+		if(resolve(assignment, variables)) {
+			return true;
+		}
+		
+		assignment.unsetValue(variable);
+		return false;
+	}
+
+
+	/**
+	 * Randomly choose a variable from the problem whose value will be set. If
+	 * any variables have the value 'unknown,' choose one of those first;
+	 * otherwise choose any variable.
+	 * 
+	 * @param assignment the assignment being worked on
+	 * @return a variable, chosen randomly
+	 */
+	private final Variable chooseVariable(Assignment assignment) {
+		// This list will hold all variables whose current value is 'unknown.'
+		ArrayList<Variable> unknown = new ArrayList<>();
+		// Loop through all the variables in the problem and find ones whose
+		// current value is 'unknown.'
+		for(Variable variable : assignment.problem.variables)
+			if(assignment.getValue(variable) == Value.UNKNOWN)
+				unknown.add(variable);
+		// If any variables are 'unknown,' choose one of them randomly.
+		if(unknown.size() > 0)
+			return unknown.get(random.nextInt(unknown.size()));
+		// Otherwise, choose any variable from the problem at random.
+		else
+			return assignment.problem.variables.get(random.nextInt(assignment.problem.variables.size()));
+	}
+
+    //@SuppressWarnings("unchecked")
+	private Assignment simplifyFormula(Assignment assignment) {
+        Assignment simplifiedAssignment = assignment.clone();
+        
+        // Perform unit propagation.
+        boolean unitPropagated = true;
+        while (unitPropagated) {
+            unitPropagated = false;
+            //int clauseSize = clause.length;
+            
+            for (Clause clause : simplifiedAssignment.problem.clauses) {
+            	
+                if (clause.literals.size() == 1) {
+                	//Iterator<Variable> iterator = ((Iterable<Variable>) clause).iterator();
+                    
+                	Variable variable = clause.literals.get(0).variable;
+              
+                    Value value = simplifiedAssignment.getValue(variable) == Value.TRUE ? Value.FALSE : Value.TRUE;
+                    
+                    if (simplifiedAssignment.getValue(variable) == Value.UNKNOWN) {
+                    	simplifiedAssignment.setValue(variable, value);
+                    	unitPropagated = true;
+                       
+                    } else if (simplifiedAssignment.getValue(variable) != value) {
+                    	//simplifiedAssignment.setValue(variable, Value.FALSE);
+                    	return null;
+                    			//simplifiedAssignment;
+                    }
+                    
+                }
+            }
+        }
+        
+        // Perform pure literal elimination.
+        for (Variable variable : simplifiedAssignment.problem.variables) {
+            boolean isPureLiteral = true;
+            for (Clause clause : simplifiedAssignment.problem.clauses) {
+                if (containsVariable(clause, variable)) {
+                    isPureLiteral = false;
+                    break;
+                }
+            }
+            if (isPureLiteral) {
+                Value value = simplifiedAssignment.getValue(variable) == Value.UNKNOWN ? Value.TRUE : simplifiedAssignment.getValue(variable);
+                simplifiedAssignment.setValue(variable, value);
+            }
+        }
+        
+        return simplifiedAssignment;
+    }
+    
+    @SuppressWarnings("unlikely-arg-type")
+	public boolean containsVariable(Clause clause, Variable variable) {
+        
+    	Iterator<Clause> iterator = clause.problem.clauses.iterator();
+    	while (iterator.hasNext()) {
+    		Clause var = iterator.next();
+            if (var.equals(variable)) {
+                return true;
+            }
+        }
+        return false;
+    } 
+
+}

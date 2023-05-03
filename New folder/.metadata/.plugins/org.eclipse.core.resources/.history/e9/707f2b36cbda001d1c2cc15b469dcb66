@@ -1,0 +1,31 @@
+package edu.uno.ai.sat.ex;
+
+//import java.lang.reflect.Constructor;
+import java.util.*;
+
+//import edu.uno.ai.logic.Proposition;
+import edu.uno.ai.sat.*;
+import edu.uno.ai.util.ImmutableArray;
+
+
+/**
+ * 
+ * @author 
+ */
+public class Smosely extends Solver {
+	
+	private final Problem problem;
+    private final Assignment assignment;
+    private final double probability;
+    private final int maxIterations;
+
+	
+    public Smosely(){
+        super("My Solver");
+        this.startTime = System.currentTimeMillis();
+
+    }
+
+    @Override
+    
+}	

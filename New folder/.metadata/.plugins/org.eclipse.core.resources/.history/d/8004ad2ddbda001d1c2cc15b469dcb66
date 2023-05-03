@@ -1,0 +1,181 @@
+package edu.uno.ai.sat.ex;
+
+import java.lang.reflect.Constructor;
+import java.util.*;
+
+import edu.uno.ai.logic.Proposition;
+import edu.uno.ai.sat.*;
+import edu.uno.ai.util.ImmutableArray;
+
+
+/**
+ * 
+ * @author 
+ */
+public class Smosely extends Solver {
+	
+	private final Random random = new Random(0);
+
+    public Smosely(){
+        super("My Solver");
+    }
+
+    @Override
+    public boolean solve(Assignment assignment){
+    	
+         //Perform unit propagation
+    	
+    	while(unitProp(assignment)) {
+    		
+        	// Perform pure literal elimination
+    		pureLiteral(assignment);
+        	// Choose a variable whose value will be set using a heuristic
+    		Variable chosen = chooseVariable(assignment);
+        	// Choose 'true' or 'false' for the variable using a heuristic
+    		Value value = chooseValue(chosen, assignment);
+        	// Assign the chosen value to the chosen variable.
+    		
+        	// Check if the maximum number of operations or time limit has been reached
+
+    	}
+    	
+        // If the simplified formula is unsatisfiable, backtrack.
+            
+        
+        // If the simplified formula is satisfiable, check if it is a complete assignment.
+            
+        
+        // Choose a variable whose value will be set.
+            
+        
+        // Try setting the variable to TRUE.
+            
+        
+        // If setting the variable to TRUE does not lead to a solution, try setting it to FALSE.
+            
+            
+        
+        // If neither setting the variable to TRUE nor FALSE leads to a solution, backtrack.
+    }
+    
+
+	public boolean unitProp(Assignment assignment) {
+    	// If the problem has no variables, it is trivially true or false.
+        if (assignment.problem.variables.size() == 0) {
+            return assignment.getValue() == Value.TRUE;
+        }else {
+        
+            // Keep trying until the assignment is satisfying.
+            // Perform unit propagation
+        	
+        	boolean unitPropagation = false;
+        	for(Clause clause : assignment.problem.clauses) {
+        		if(assignment.getValue(clause) == Value.UNKNOWN && assignment.countUnknownLiterals(clause) == 1) {
+        			Literal unknown = null;
+        			for(Literal literal : clause.literals) {
+        				if(assignment.getValue(literal) == Value.UNKNOWN) {
+        					if(unknown == null) {
+        						unknown = literal;
+        					}else {
+        						unknown = null;
+        						break;
+        					}
+        				}
+        			}
+        			if(unknown != null) {
+        				assignment.setValue(unknown.variable, Value.TRUE);
+        				unitPropagation = true;
+        			}
+        		}
+        	}
+        	return unitPropagation;
+        }
+    }
+    
+    public void pureLiteral(Assignment assignment) {
+    	
+    	//get all the variables in the problem
+    	ImmutableArray<Variable> variables = assignment.problem.variables;
+    	
+    	//For each variable, check if it only appears with one valence in the problem
+    	for(Variable variable : variables) {
+    		boolean positive = false;
+    		boolean negative = false;
+    		
+    		//Count the number of clauses in which the variable appears with each valence
+    		for(Clause clause : assignment.problem.clauses) {
+    			if(clause.literals.contains(variable.equals(true))) {
+    				positive = true;
+    				
+    			}else if(clause.literals.contains(variable.equals(false))) {
+    				negative = true;
+    			}
+    		}
+    		
+    		if(positive && !negative) {
+    			tryValue(assignment,variable, Value.TRUE);
+    		}else if(negative && !positive) {
+    			tryValue(assignment,variable, Value.FALSE);
+    		}
+    	}
+    }
+    
+    private final Variable chooseVariable(Assignment assignment) {
+		// This list will hold all variables whose current value is 'unknown.'
+		ArrayList<Variable> unknown = new ArrayList<>();
+		// Loop through all the variables in the problem and find ones whose
+		// current value is 'unknown.'
+		for(Variable variable : assignment.problem.variables) {
+			if(assignment.getValue(variable) == Value.UNKNOWN) {
+				unknown.add(variable);
+			}
+		}
+		// If any variables are 'unknown,' choose one of them randomly.
+		Variable randomVar;
+		if(unknown.size() > 0) {
+			randomVar = unknown.get(random.nextInt(unknown.size()));
+		// Otherwise, choose any variable from the problem at random.
+		}else {
+			randomVar = assignment.problem.variables.get(random.nextInt(assignment.problem.variables.size()));
+		}
+		
+		return randomVar;
+	}
+    
+   private final Value chooseValue(Variable variable, Assignment assignment) {
+		int trueCount = 0;
+		int falseCount = 0;
+		for (int i = 0; i < variable.problem.clauses.size(); i++) {
+			Value value = assignment.getValue(variable.problem.clauses.get(i));
+			if (value == Value.TRUE) {
+				trueCount++;
+			} else if (value == Value.FALSE) {
+				falseCount++;
+			}
+		}
+	
+		if (trueCount > falseCount) {
+			return Value.FALSE;
+		} else if (falseCount > trueCount) {
+			return Value.TRUE;
+		} else {
+			return random.nextBoolean() ? Value.TRUE : Value.FALSE;
+		}
+	}
+  //Set a variable to a value, and if it doesn’t work, undo it.
+    private boolean tryValue(Assignment a, Variable var, Value val){
+    	//Back up the variable’s current value.
+        Value backup = a.getValue(var);
+        //Set the variable to the given value.
+        a.setValue(var, val);
+        //Try to solve the problem with this new information.
+        if(solve(a)){
+            return true;
+        }
+        //If we failed to solve the problem, return the variable to its previous value.
+        else{
+        	a.setValue(var, backup);
+        	return false;
+        }
+    }
+}	

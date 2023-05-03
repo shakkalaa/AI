@@ -1,0 +1,177 @@
+package edu.uno.ai.sat.ex;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Collection;
+import java.util.Iterator;
+
+//import edu.uno.ai.io.List;
+//import edu.uno.ai.logic.Formula;
+//import edu.uno.ai.sat.solve.;
+import edu.uno.ai.sat.Assignment;
+import edu.uno.ai.sat.Solver;
+import edu.uno.ai.sat.Value;
+import edu.uno.ai.sat.Variable;
+import edu.uno.ai.sat.Clause;
+//import edu.uno.ai.sat.Result;
+
+
+/**
+ * 
+ * @author Shakayla Mosely
+ */
+public class Smosely extends Solver {
+
+	private final Random random = new Random(0);
+	//private int maxOperations;
+    private long startTime;
+	
+	/**
+	 * Constructs a new random SAT solver. You should change the string below
+	 * from "random" to your ID. You should also change the name of this class.
+	 * In Eclipse, you can do that easily by right-clicking on this file
+	 * (RandomAgent.java) in the Package Explorer and choosing Refactor > Rename.
+	 */
+	public Smosely() {
+		super("smosely1");
+		//this.maxOperations = 1000000;
+        this.startTime = System.currentTimeMillis();
+	}
+
+
+	@Override
+    public boolean solve(Assignment assignment) {
+		
+		//int numOperations;
+		
+		if (System.currentTimeMillis() - startTime >= 5 * 60 * 1000) {
+            return false; // exceeded maximum operations or time
+        }
+		
+        // If the problem has no variables, it is trivially true or false.
+        if(assignment.problem.variables.size() == 0)
+            return assignment.getValue() == Value.TRUE;
+        else {
+            // Simplify the formula by unit propagation and pure literal elimination.
+            assignment = simplifyFormula(assignment);
+        
+            // If the simplified formula is unsatisfiable, backtrack.
+            if (assignment.getValue() == Value.FALSE) {
+                return false;
+            }
+        
+            /*// If the simplified formula is satisfiable, check if it is a complete assignment.
+            if (assignment.problem.solve()) {
+                return true;
+            }*/
+        
+            // Choose a variable whose value will be set.
+            Variable variable = chooseVariable(assignment);
+        
+            // Try setting the variable to TRUE.
+            assignment.setValue(variable, Value.TRUE);
+            if (solve(assignment)) {
+                return true;
+            }
+        
+            // If setting the variable to TRUE does not lead to a solution, try setting it to FALSE.
+            assignment.setValue(variable, Value.FALSE);
+            if (solve(assignment)) {
+                return true;
+            }
+        
+            // If neither setting the variable to TRUE nor FALSE leads to a solution, backtrack.
+            assignment.setValue(variable, Value.UNKNOWN);
+            return false;
+        }
+    }
+
+	
+	/**
+	 * Randomly choose a variable from the problem whose value will be set. If
+	 * any variables have the value 'unknown,' choose one of those first;
+	 * otherwise choose any variable.
+	 * 
+	 * @param assignment the assignment being worked on
+	 * @return a variable, chosen randomly
+	 */
+	private final Variable chooseVariable(Assignment assignment) {
+		// This list will hold all variables whose current value is 'unknown.'
+		ArrayList<Variable> unknown = new ArrayList<>();
+		// Loop through all the variables in the problem and find ones whose
+		// current value is 'unknown.'
+		for(Variable variable : assignment.problem.variables)
+			if(assignment.getValue(variable) == Value.UNKNOWN)
+				unknown.add(variable);
+		// If any variables are 'unknown,' choose one of them randomly.
+		if(unknown.size() > 0)
+			return unknown.get(random.nextInt(unknown.size()));
+		// Otherwise, choose any variable from the problem at random.
+		else
+			return assignment.problem.variables.get(random.nextInt(assignment.problem.variables.size()));
+	}
+
+    @SuppressWarnings("unchecked")
+	private Assignment simplifyFormula(Assignment assignment) {
+        Assignment simplifiedAssignment = assignment.clone();
+        
+        // Perform unit propagation.
+        boolean unitPropagated = true;
+        while (unitPropagated) {
+            unitPropagated = false;
+            //int clauseSize = clause.length;
+            
+            for (Clause clause : simplifiedAssignment.problem.clauses) {
+            	
+                if (((Collection<Variable>) clause).size() == 1) {
+                	Iterator<Variable> iterator = ((Iterable<Variable>) clause).iterator();
+                    
+                	Variable variable = iterator.next();
+              
+                    Value value = simplifiedAssignment.getValue(variable) == Value.TRUE ? Value.FALSE : Value.TRUE;
+                    
+                    if (simplifiedAssignment.getValue(variable) == Value.UNKNOWN) {
+                    	simplifiedAssignment.setValue(variable, value);
+                    	unitPropagated = true;
+                       
+                    } else if (simplifiedAssignment.getValue(variable) != value) {
+                    	simplifiedAssignment.setValue(variable, Value.FALSE);
+                    	return simplifiedAssignment;
+                    }
+                    
+                }
+            }
+        }
+        
+        // Perform pure literal elimination.
+        for (Variable variable : simplifiedAssignment.problem.variables) {
+            boolean isPureLiteral = true;
+            for (Clause clause : simplifiedAssignment.problem.clauses) {
+                if (containsVariable(clause, variable)) {
+                    isPureLiteral = false;
+                    break;
+                }
+            }
+            if (isPureLiteral) {
+                Value value = simplifiedAssignment.getValue(variable) == Value.UNKNOWN ? Value.TRUE : simplifiedAssignment.getValue(variable);
+                simplifiedAssignment.setValue(variable, value);
+            }
+        }
+        
+        return simplifiedAssignment;
+    }
+    
+    @SuppressWarnings("unlikely-arg-type")
+	public boolean containsVariable(Clause clause, Variable variable) {
+        
+    	Iterator<Clause> iterator = clause.problem.clauses.iterator();
+    	while (iterator.hasNext()) {
+    		Clause var = iterator.next();
+            if (var.equals(variable)) {
+                return true;
+            }
+        }
+        return false;
+    } 
+
+}

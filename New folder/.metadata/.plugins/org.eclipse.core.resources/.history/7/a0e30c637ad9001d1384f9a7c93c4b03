@@ -1,0 +1,105 @@
+package edu.uno.ai.sat.ex;
+
+import edu.uno.ai.logic.Formula;
+import edu.uno.ai.logic.Variable;
+import edu.uno.ai.sat.Assignment;
+import edu.uno.ai.sat.Clause;
+import edu.uno.ai.sat.Literal;
+import edu.uno.ai.sat.Solver;
+import edu.uno.ai.sat.Value;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Smosely extends Solver {
+
+    private List<Clause> clauses;
+    private int maxSteps;
+
+    public Smosely() {
+    	super("smosely1");
+        this.maxSteps = 100000;
+    }
+
+    @Override
+    public boolean solve(Assignment assignment) {
+        return dpll(new ArrayList<>(this.clauses), assignment, maxSteps);
+    }
+
+    private boolean dpll(List<Clause> clauses, Assignment assignment, int steps) {
+        if (steps == 0) {
+            // reached the maximum number of operations, return false
+            return false;
+        }
+
+        // check if all clauses are true, return true
+        boolean allTrue = true;
+        for (Clause clause : clauses) {
+            if (!isSatisfied(clause, assignment)) {
+                allTrue = false;
+                break;
+            }
+        }
+        if (allTrue) {
+            return true;
+        }
+
+        // check if any clause is false, return false
+        for (Clause clause : clauses) {
+            if (isFalse(clause, assignment)) {
+                return false;
+            }
+        }
+
+        // choose a literal to assign
+        Literal literal = chooseLiteral(clauses, assignment);
+
+        // recurse on both branches of the assignment
+        assignment.setValue(literal.variable, Value.TRUE);
+        boolean result = dpll(clauses, assignment, steps - 1);
+        if (result) {
+            return true;
+        }
+        assignment.setValue(literal.variable, Value.FALSE);
+        return dpll(clauses, assignment, steps - 1);
+    }
+
+    private Literal chooseLiteral(List<Clause> clauses, Assignment assignment) {
+        // random selection
+        List<Literal> options = new ArrayList<>();
+        for (Clause clause : clauses) {
+            for (Literal literal : clause.literals) {
+                if (!assignment.contains(literal.variable) &&
+                        !assignment.contains(literal.variable.negation())) {
+                    options.add(literal);
+                }
+            }
+        }
+        Random random = new Random();
+        return options.get(random.nextInt(options.size()));
+    }
+
+    private boolean isSatisfied(Clause clause, Assignment assignment) {
+        for (Literal literal : clause.literals) {
+            Variable variable = literal.variable;
+            if (assignment.isAssigned(variable) &&
+                    assignment.get(variable) == literal.proposition) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isFalse(Clause clause, Assignment assignment) {
+        for (Literal literal : clause.literals) {
+            Variable variable = literal.variable;
+            if (assignment.isAssigned(variable) &&
+                    assignment.get(variable) != literal.proposition) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+}

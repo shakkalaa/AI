@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uno.ai.sat.*;
+
+public class MySolver extends Solver {
+    
+    private int maxOperations;
+    private long startTime;
+    
+    public MySolver(int maxOperations, int maxTime) {
+        super();
+        this.maxOperations = maxOperations;
+        this.startTime = System.currentTimeMillis();
+    }
+    
+    @Override
+    public boolean Solve(List<List<Literal>> clauses) {
+       Assignment assignments = new Assignment(variables.size());
+        return solveRecursively(clauses, assignments, 0);
+    }
+    
+    private boolean solveRecursively(List<List<Literal>> clauses, List<Assignment> assignments, int numOperations) {
+        if (numOperations >= maxOperations || System.currentTimeMillis() - startTime >= 5 * 60 * 1000) {
+            return false; // exceeded maximum operations or time
+        }
+        if (clauses.isEmpty()) {
+            return true; // all clauses are satisfied
+        }
+        for (List<Literal> clause : clauses) {
+            if (clause.isEmpty()) {
+                return false; // an empty clause means the formula is unsatisfiable
+            }
+            if (clause.size() == 1) {
+                Literal literal = clause.get(0);
+                Variable variable = literal.variable();
+                boolean value = !literal.negated();
+                Assignment assignment = assignments.get(variable.index());
+                if (assignment == null) {
+                    assignments.set(variable.index(), new Assignment(variable, value));
+                    List<List<Literal>> newClauses = simplify(clauses, variable, value);
+                    boolean result = solveRecursively(newClauses, assignments, numOperations + 1);
+                    if (result) {
+                        return true;
+                    }
+                    assignments.set(variable.index(), null);
+                }
+            }
+        }
+        Variable variable = null;
+        boolean value = false;
+        int minOccurrences = Integer.MAX_VALUE;
+        for (Variable v : variables) {
+            Assignment assignment = assignments.get(v.index());
+            if (assignment == null) {
+                int occurrences = countOccurrences(clauses, v);
+                if (occurrences < minOccurrences) {
+                    variable = v;
+                    value = true;
+                    minOccurrences = occurrences;
+                }
+                if (occurrences < minOccurrences) {
+                    variable = v;
+                    value = false;
+                    minOccurrences = occurrences;
+                }
+            }
+        }
+        if (variable != null) {
+            Assignment assignment = new Assignment(variable, value);
+            assignments.set(variable.index(), assignment);
+            List<List<Literal>> newClauses = simplify(clauses, variable, value);
+            boolean result = solveRecursively(newClauses, assignments, numOperations + 1);
+            if (result) {
+                return true;
+            }
+            assignments.set(variable.index(), null);
+        }
+        return false; // no more unassigned variables, backtrack
+    }
+    
+    private List<List<Literal>> simplify(List<List<Literal>> clauses, Variable variable, boolean value) {
+        List<List<Literal>> newClauses = new ArrayList<List<Literal>>();
+        for (List<Literal> clause : clauses) {
+            if (!clause.contains(new Literal(variable, !value))) {
+                List<Literal> newClause = new ArrayList<Literal>();
+                for (Literal literal : clause) {
+                    if (!literal.equals(new Literal(variable, value))) {
+                        newClause.add(literal);
+                    }
+                }
+                if (!newClause.isEmpty()) {
+                    newClauses.add(newClause);
+                }
+            }
+        }
+        return newClauses;
+    }
+
+    private int countOccurrences(List<List<Literals>> clauses, Variable variable) {
+        int count = 0;
+        for (List<Literal> clause : clauses) {
+            if (clause.contains(new Literal(variable, false)) || clause.contains(new Literal(variable, true))) {
+                count++;
+            }
+        }
+    return count;
+    }
+    
+}

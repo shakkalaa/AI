@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;RandomSolver.zip_expanded/Example SAT Solver/src/edu/uno/ai/sat/ex/RandomSolver.java&apos; to &apos;MySolver.java&apos;" description="Rename resource &apos;RandomSolver.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Example SAT Solver/src/edu/uno/ai/sat/ex/RandomSolver.java" name="MySolver.java" stamp="1680916240648" updateReferences="true"/>
+</session>

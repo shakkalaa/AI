@@ -1,0 +1,83 @@
+package edu.uno.ai.sat.ex;
+
+import java.lang.reflect.Constructor;
+import java.util.*;
+
+import edu.uno.ai.logic.Proposition;
+import edu.uno.ai.sat.*;
+
+
+/**
+ * 
+ * @author 
+ */
+public class Smosely extends Solver {
+	
+	//privat Assignment simplified
+
+    public Smosely(){
+        super("My Solver");
+    }
+
+    @Override
+    public boolean solve(Assignment assignment){
+
+         //Perform unit propagation
+    	
+    	while(unitProp(assignment)) {
+    		
+        	// Perform pure literal elimination
+
+    	}
+        // If the simplified formula is unsatisfiable, backtrack.
+            
+        
+        // If the simplified formula is satisfiable, check if it is a complete assignment.
+            
+        
+        // Choose a variable whose value will be set.
+            
+        
+        // Try setting the variable to TRUE.
+            
+        
+        // If setting the variable to TRUE does not lead to a solution, try setting it to FALSE.
+            
+            
+        
+        // If neither setting the variable to TRUE nor FALSE leads to a solution, backtrack.
+    }
+    public boolean unitProp(Assignment assignment) {
+    	// If the problem has no variables, it is trivially true or false.
+        if (assignment.problem.variables.size() == 0) {
+            return assignment.getValue() == Value.TRUE;
+        }else {
+        
+            // Keep trying until the assignment is satisfying.
+            // Perform unit propagation
+        	
+        	boolean unitPropagation = false;
+        	for(Clause clause : assignment.problem.clauses) {
+        		if(assignment.getValue(clause) == Value.UNKNOWN && assignment.countUnknownLiterals(clause) == 1) {
+        			Literal unknown = null;
+        			for(Literal literal : clause.literals) {
+        				if(assignment.getValue(literal) == Value.UNKNOWN) {
+        					if(unknown == null) {
+        						unknown = literal;
+        					}else {
+        						unknown = null;
+        						break;
+        					}
+        				}
+        			}
+        			if(unknown != null) {
+        				assignment.setValue(unknown.variable, Value.TRUE);
+        				unitPropagation = true;
+        			}
+        		}
+        	}
+        	return unitPropagation;
+        }
+    }
+
+}	
