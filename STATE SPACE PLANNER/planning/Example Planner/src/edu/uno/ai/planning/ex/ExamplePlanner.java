@@ -20,7 +20,7 @@ public class ExamplePlanner extends StateSpacePlanner {
 	 * Refactor > Rename.
 	 */
 	public ExamplePlanner() {
-		super("Example");
+		super("Smosemly1");
 	}
 
 	@Override

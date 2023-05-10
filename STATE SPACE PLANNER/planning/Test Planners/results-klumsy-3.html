@@ -1,0 +1,877 @@
+<html>
+<head>
+<title>Planning Benchmark Results</title>
+<style>
+table { border-collapse: collapse; }
+table, tr, th, td { border: 1px solid black; }
+tr:nth-child(odd) { background-color: lightgray; }
+th { font-weight: bold; }
+td { text-align: right; }
+</style>
+</head>
+<body>
+
+<h1>Planning Benchmark Results</h1>
+
+<h2>Problems Solved</h2>
+<table>
+	<tr>
+		<th></th>
+		<th>BFS</th>
+		<th>Smosemly1</th>
+		<th>Total</th>
+	</tr>
+	<tr>
+		<th>(cake) do_nothing</th>
+		<td>1</td>
+		<td>1</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<th>(cake) eat_cake</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cake) have_eat_cake</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_stack</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_unstack</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) sussman</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_2</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_4</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_6</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_8</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_10</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_12</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_14</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_1</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_2</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_3</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_4</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_5</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_1</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_2</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_3</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_4</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_5</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(wumpus) easy_wumpus</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(wumpus) medium_wumpus</th>
+		<td>1</td>
+		<td>0</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(wumpus) hard_wumpus</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>Total</th>
+		<td>14</td>
+		<td>1</td>
+		<td>15</td>
+	</tr>
+</table>
+
+<h2>Plan Length</h2>
+<table>
+	<tr>
+		<th></th>
+		<th>BFS</th>
+		<th>Smosemly1</th>
+		<th>Total</th>
+	</tr>
+	<tr>
+		<th>(cake) do_nothing</th>
+		<td>0</td>
+		<td>0</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cake) eat_cake</th>
+		<td>1</td>
+		<td>-</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(cake) have_eat_cake</th>
+		<td>2</td>
+		<td>-</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_stack</th>
+		<td>1</td>
+		<td>-</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_unstack</th>
+		<td>1</td>
+		<td>-</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<th>(blocks) sussman</th>
+		<td>3</td>
+		<td>-</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_2</th>
+		<td>2</td>
+		<td>-</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_4</th>
+		<td>6</td>
+		<td>-</td>
+		<td>6</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_6</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_8</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_10</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_12</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_14</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_1</th>
+		<td>3</td>
+		<td>-</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_2</th>
+		<td>5</td>
+		<td>-</td>
+		<td>5</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_1</th>
+		<td>4</td>
+		<td>-</td>
+		<td>4</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_2</th>
+		<td>6</td>
+		<td>-</td>
+		<td>6</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>(wumpus) easy_wumpus</th>
+		<td>3</td>
+		<td>-</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<th>(wumpus) medium_wumpus</th>
+		<td>7</td>
+		<td>-</td>
+		<td>7</td>
+	</tr>
+	<tr>
+		<th>(wumpus) hard_wumpus</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<th>Total</th>
+		<td>44</td>
+		<td>0</td>
+		<td>44</td>
+	</tr>
+</table>
+
+<h2>Nodes Visited</h2>
+<table>
+	<tr>
+		<th></th>
+		<th>BFS</th>
+		<th>Smosemly1</th>
+		<th>Average</th>
+	</tr>
+	<tr>
+		<th>(cake) do_nothing</th>
+		<td>1.00</td>
+		<td>0.00</td>
+		<td>0.50</td>
+	</tr>
+	<tr>
+		<th>(cake) eat_cake</th>
+		<td>2.00</td>
+		<td>-</td>
+		<td>2.00</td>
+	</tr>
+	<tr>
+		<th>(cake) have_eat_cake</th>
+		<td>3.00</td>
+		<td>-</td>
+		<td>3.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_stack</th>
+		<td>3.00</td>
+		<td>-</td>
+		<td>3.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_unstack</th>
+		<td>2.00</td>
+		<td>-</td>
+		<td>2.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) sussman</th>
+		<td>41.00</td>
+		<td>-</td>
+		<td>41.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_2</th>
+		<td>5.00</td>
+		<td>-</td>
+		<td>5.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_4</th>
+		<td>507.00</td>
+		<td>-</td>
+		<td>507.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_6</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_8</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_10</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_12</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_14</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_1</th>
+		<td>19.00</td>
+		<td>-</td>
+		<td>19.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_2</th>
+		<td>297.00</td>
+		<td>-</td>
+		<td>297.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_1</th>
+		<td>53.00</td>
+		<td>-</td>
+		<td>53.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_2</th>
+		<td>1080.00</td>
+		<td>-</td>
+		<td>1080.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) easy_wumpus</th>
+		<td>14.00</td>
+		<td>-</td>
+		<td>14.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) medium_wumpus</th>
+		<td>501.00</td>
+		<td>-</td>
+		<td>501.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) hard_wumpus</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>Average</th>
+		<td>180.60</td>
+		<td>0.00</td>
+		<td>90.30</td>
+	</tr>
+</table>
+
+<h2>Nodes Generated</h2>
+<table>
+	<tr>
+		<th></th>
+		<th>BFS</th>
+		<th>Smosemly1</th>
+		<th>Average</th>
+	</tr>
+	<tr>
+		<th>(cake) do_nothing</th>
+		<td>2.00</td>
+		<td>1.00</td>
+		<td>1.50</td>
+	</tr>
+	<tr>
+		<th>(cake) eat_cake</th>
+		<td>3.00</td>
+		<td>-</td>
+		<td>3.00</td>
+	</tr>
+	<tr>
+		<th>(cake) have_eat_cake</th>
+		<td>4.00</td>
+		<td>-</td>
+		<td>4.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_stack</th>
+		<td>7.00</td>
+		<td>-</td>
+		<td>7.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_unstack</th>
+		<td>6.00</td>
+		<td>-</td>
+		<td>6.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) sussman</th>
+		<td>110.00</td>
+		<td>-</td>
+		<td>110.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_2</th>
+		<td>9.00</td>
+		<td>-</td>
+		<td>9.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_4</th>
+		<td>2284.00</td>
+		<td>-</td>
+		<td>2284.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_6</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_8</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_10</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_12</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_14</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_1</th>
+		<td>54.00</td>
+		<td>-</td>
+		<td>54.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_2</th>
+		<td>1081.00</td>
+		<td>-</td>
+		<td>1081.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_1</th>
+		<td>148.00</td>
+		<td>-</td>
+		<td>148.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_2</th>
+		<td>3929.00</td>
+		<td>-</td>
+		<td>3929.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) easy_wumpus</th>
+		<td>47.00</td>
+		<td>-</td>
+		<td>47.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) medium_wumpus</th>
+		<td>1701.00</td>
+		<td>-</td>
+		<td>1701.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) hard_wumpus</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>Average</th>
+		<td>670.40</td>
+		<td>1.00</td>
+		<td>335.70</td>
+	</tr>
+</table>
+
+<h2>Time (ms)</h2>
+<table>
+	<tr>
+		<th></th>
+		<th>BFS</th>
+		<th>Smosemly1</th>
+		<th>Average</th>
+	</tr>
+	<tr>
+		<th>(cake) do_nothing</th>
+		<td>0.00</td>
+		<td>3.00</td>
+		<td>1.50</td>
+	</tr>
+	<tr>
+		<th>(cake) eat_cake</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cake) have_eat_cake</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_stack</th>
+		<td>2.00</td>
+		<td>-</td>
+		<td>2.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) easy_unstack</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) sussman</th>
+		<td>4.00</td>
+		<td>-</td>
+		<td>4.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_2</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_4</th>
+		<td>30.00</td>
+		<td>-</td>
+		<td>30.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_6</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_8</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_10</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_12</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(blocks) reverse_14</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_1</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_2</th>
+		<td>2.00</td>
+		<td>-</td>
+		<td>2.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_1</th>
+		<td>0.00</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_2</th>
+		<td>5.00</td>
+		<td>-</td>
+		<td>5.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_3</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_4</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(cargo) deliver_return_5</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) easy_wumpus</th>
+		<td>21.00</td>
+		<td>-</td>
+		<td>21.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) medium_wumpus</th>
+		<td>134.00</td>
+		<td>-</td>
+		<td>134.00</td>
+	</tr>
+	<tr>
+		<th>(wumpus) hard_wumpus</th>
+		<td>-</td>
+		<td>-</td>
+		<td>0.00</td>
+	</tr>
+	<tr>
+		<th>Average</th>
+		<td>14.10</td>
+		<td>3.00</td>
+		<td>8.60</td>
+	</tr>
+</table>
+
+</body>
+<html>
